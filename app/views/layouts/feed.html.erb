@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socialrank</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <style>
+      html { background-color: #E9EBEE; font-family: 'Montserrat';}
+      img {
+        width: 50px;
+        height: 50px;
+      }
+      #navbar {
+  overflow: hidden;
+  background-color: #4469B0;
+  margin-left: -8px;
+  width: 100%;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#navbar a:hover {
+  background-color: #black;
+  color: black;
+}
+
+#navbar a.active {
+  color: black;
+}
+
+.content {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 60px;
+}
+      .card {
+        border-style: solid;
+        border-radius: 5px;
+        border-width: 1px;
+        border-color: #DCDCDC;
+        padding: 10px;
+        width: 50%;
+        margin-bottom: 10px;
+        background-color: white;
+      }
+    </style>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <div id="navbar" class="sticky">
+    <img src="https://test-password-bucket.s3-us-west-2.amazonaws.com/nosedive.png" height="50px" width="50px" style="margin-left: 10px;" />
+    <div style="margin-right: 50px;">
+    <form method="GET" action="/">
+      <input type="text" name="filter">
+      <input type="submit" name="Submit">
+    </form>
+    <a class="active" href="/">Feed</a>
+    <a href="/commentfeed">Comments</a>
+    <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+    </div>
+  </div>
+  <br />
+  <br />
+    <p class="navbar-text float-right">
+    <% if user_signed_in? %>
+      <ul>
+        <% @users.each do |user| %>
+          <div class="card">
+          <% if user.name != nil %>
+            <h3><a href="/user/<%= user.id %>"><%= user.name %></a></h3>
+          <% else %>
+            <h3><a href="/user/<%= user.id %>"><%= user.email %></a></h3>
+          <% end %>
+          <% if user.avatar.attached? %>
+            <%= image_tag user.avatar %>
+          <% else %>
+            <img src="https://test-password-bucket.s3-us-west-2.amazonaws.com/nosedive.png" width="50px" height="50px" />
+          <% end %>
+          </div>
+        <% end %>
+      </ul>
+    <% else %>
+
+    <% end %>
+    </p>
+    <script>
+// When the user clicks on div, open the popup
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+</script>
+  </body>
+</html>
